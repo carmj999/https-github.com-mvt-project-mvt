@@ -26,11 +26,14 @@ class ConfigurationProfiles(IOSExtraction):
     def serialize(self, record):
         if not record["install_date"]:
             return
+
+        payload_name = record['plist'].get('PayloadDisplayName')
+        payload_description = record['plist'].get('PayloadDescription')
         return {
             "timestamp": record["install_date"],
             "module": self.__class__.__name__,
             "event": "configuration_profile_install",
-            "data": f"{record['plist']['PayloadType']} installed: {record['plist']['PayloadUUID']} - {record['plist']['PayloadDisplayName']}: {record['plist']['PayloadDescription']}"
+            "data": f"{record['plist']['PayloadType']} installed: {record['plist']['PayloadUUID']} - {payload_name}: {payload_description}"
         }
 
     def check_indicators(self):

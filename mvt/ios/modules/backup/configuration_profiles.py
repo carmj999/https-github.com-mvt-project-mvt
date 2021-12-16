@@ -4,6 +4,7 @@
 # Use of this software is governed by the MVT License 1.1 that can be found at
 #   https://license.mvt.re/1.1/
 
+import os
 import plistlib
 from base64 import b64encode
 from mvt.common.utils import convert_timestamp_to_iso
@@ -54,6 +55,11 @@ class ConfigurationProfiles(IOSExtraction):
 
     def run(self):
         for conf_file in self._get_backup_files_from_manifest(domain=CONF_PROFILES_DOMAIN):
+            conf_rel_path = conf_file["relative_path"]
+            # Filter out all configuration files that are not configuration profiles.
+            if not conf_rel_path or not os.path.basename(conf_rel_path).startswith("profile-"):
+                continue
+
             conf_file_path = self._get_backup_file_from_id(conf_file["file_id"])
             if not conf_file_path:
                 continue

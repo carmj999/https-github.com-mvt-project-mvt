@@ -3,3 +3,4 @@ mkdocs-autorefs
 mkdocs-material
 mkdocs-material-extensions
 mkdocstrings
+requests>=2.32.0 # not directly required, pinned by Snyk to avoid a vulnerability
